@@ -1,0 +1,22 @@
+enable: True
+order : 5
+name: fbsr_fait_bss_review
+inputs:
+- name: bsre_bss_review
+  uri: ${bucket_trusted_rin}/business_review/
+  extractor: str
+  parameters:
+    format: delta
+   
+validations: []
+transforms:
+outputs:
+- name: fbsr_fait_bss_review
+  loader: src.load.ParquetLoader
+  input: bsre_bss_review
+  uri: ${bucket_trusted_rin}/fbsr_fait_bss_review
+  parameters:
+    mode: overwrite
+    database_name: ${schema_athena_mou_switched}
+    table_name: fbsr_fait_bss_review
+custom_operators: []

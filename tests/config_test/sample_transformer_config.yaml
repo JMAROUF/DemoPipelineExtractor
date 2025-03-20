@@ -1,0 +1,51 @@
+enable: True
+name: customer_review
+inputs:
+- name: customer_review
+  uri: ${raw_sff}/Customer_Review/eventdate=${event_date}/
+  parameters:
+    format: csv
+    options:
+      header: True
+      delimiter: ","
+      encoding: "utf-8"
+    ddl_schema: "
+          review_id int, 
+          customer_id int, 
+          review_date string, 
+          rating int, 
+          comments string
+      "
+transforms:
+- name: preprocess
+  transformer: SingleFreeStyleTransformer
+  inputs: customer_review
+  parameters:
+    function_name: preprocess_reviews
+    function_parameters:
+      audit_columns:
+        review_id: review_id
+        customer_id: customer_id
+        review_date: review_date
+        rating: rating
+        comments: comments
+      technical_keys:
+        c_ident_tech_customer_review: ['review_id', 'customer_id']
+
+- name: hub
+  transformer: Hub_Factory
+  inputs: preprocess
+  parameters:
+    tech_id: c_ident_tech_customer_review
+    table_name: dvt_customer_review
+    location: ${trusted_vault_hub_sff}/dvt_customer_review/
+    columns: [
+    "c_ident_tech_customer_review",
+    "review_id",
+    "customer_id",
+    "review_date",
+    "rating",
+    "comments"
+    ]
+outputs: []
+custom_operators: []

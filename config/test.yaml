@@ -1,0 +1,35 @@
+enable : true
+order  : 1
+name: sff_extract
+inputs:
+- name: fonds_partenaire
+  extractor : src.extract.JdbcExtractor
+  uri: ${/rin-staging/postgres_uri}${/rin-staging/postgres_db_name}
+  parameters:
+      table_name: fopa_fonds_partenaire
+      connection_properties:
+          user: postgresql_username
+          password: postgresql_password
+          filter_on: "perimetre_fonds_partenaire = true"
+- name: foge_fonds_gere
+  extractor : src.extract.JdbcExtractor
+  uri: ${/rin-staging/postgres_uri}${/rin-staging/postgres_db_name}
+  parameters:
+      table_name: foge_fonds_gere
+      connection_properties:
+          user: postgresql_username
+          password: postgresql_password
+          filter_on:
+
+
+outputs :
+- name : fonds_partenaire
+  loader : src.load.JdbcLoader
+  uri : raw_rin_sff/fopa_fonds_partenaire/eventdate=event_date/
+  parameters:
+    mode : overwrite
+    database_name: schema_athena_raw_sff
+
+
+
+

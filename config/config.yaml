@@ -1,0 +1,40 @@
+familles:
+  - parents:
+      - name: ${parent1_name}
+        children:
+          - name: ${child1_name}
+            value: ${child1_value}
+          - name: ${child2_name}
+            value: ${child2_value}
+      - name: ${parent2_name}
+        children:
+          - name: ${child3_name}
+            value: ${child3_value}
+          - name: ${child4_name}
+            value: ${child4_value}
+  - parents:
+      - name: ${parent3_name}
+        children:
+          - name: ${child5_name}
+            value: ${child5_value}
+          - name: ${child6_name}
+            value: ${child6_value}
+      - name: ${parent4_name}
+        children:
+          - name: ${child7_name}
+            value: ${child7_value}
+          - name: ${child8_name}
+            value: ${child8_value}
+  - parents:
+      - name: ${parent5_name}
+        children:
+          - name: ${child9_name}
+            value: ${child9_value}
+          - name: ${child10_name}
+            value: ${child10_value}
+      - name: ${parent6_name}
+        children:
+          - name: ${child11_name}
+            value: ${child11_value}
+          - name: ${child12_name}
+            value: ${child12_value}
