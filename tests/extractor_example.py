@@ -36,47 +36,47 @@ class ExtractorExample:
         return dataframe
 
 if __name__ == "__main__":
-    spark = (SparkSession.builder
-             .appName("extractorExample")
-             .getOrCreate())
-#     try:
-#         spark = (SparkSession.builder
-#                         .appName("extractorExample")
-#                  .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-#                  .config("spark.hadoop.fs.s3a.aws.credentials.provider","com.amazonaws.auth.profile.ProfileCredentialsProvider")
-#                  .config("spark.hadoop.fs.s3a.endpoint", "s3.amazonaws.com")
-#                  .config("spark.hadoop.fs.s3a.aws.profile", os.getenv("AWS_PROFILE"))
-#                  .getOrCreate())
-#     except Exception as e:
-#         print(e)
-#
-#
-#     spark.sparkContext.setLogLevel("ERROR")
-#
-#         # Chemin du fichier CSV
-#     csv_file_path = "test_extract.csv"
-#
-#     # df = (spark.read.format("csv")
-#     #              .option("header", "true")
-#     #              .option("inferSchema", "true")
-#     #              .load(csv_file_path))
-#
-#
-#     extractor_config = {
-#         "options": {
-#             "header": "true",
-#             "inferSchema": "true"
-#         },
-#         "columns": {
-#             "type": "include",
-#             "list": ["nom", "prenom"]
-#         },
-#         "filter_on": "true",
-#         "drop_duplicate": True
-#     }
-#     input = "s3a://aws-sto-s3s-cdn-u-apps/test_extract.csv"
-#
-# #    input = "test_extract.csv"
-#     extractor = ExtractorExample(**extractor_config)
-#     df = extractor.extract(input, spark)
-#     df.show()
+    spark=None
+    try:
+     spark = (SparkSession.builder
+                     .appName("extractorExample")
+              .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+              .config("spark.hadoop.fs.s3a.aws.credentials.provider","com.amazonaws.auth.profile.ProfileCredentialsProvider")
+              .config("spark.hadoop.fs.s3a.endpoint", "s3.amazonaws.com")
+              .config("spark.hadoop.fs.s3a.aws.profile", os.getenv("AWS_PROFILE"))
+              .getOrCreate())
+     spark.sparkContext.setLogLevel("ERROR")
+    except Exception as e:
+     print(f"Error {e}")
+
+
+    if spark:
+        #Chemin du fichier CSV
+        #csv_file_path = "test_extract.csv"
+
+        # df = (spark.read.format("csv")
+        #                .option("header", "true")
+        #                .option("inferSchema", "true")
+        #                .load(csv_file_path))
+
+
+        extractor_config = {
+         "options": {
+             "header": "true",
+             "inferSchema": "true"
+         },
+         "columns": {
+             "type": "include",
+             "list": ["nom", "prenom"]
+         },
+         "filter_on": "true",
+         "drop_duplicate": True
+        }
+        input = "s3a://aws-sto-s3s-cdn-u-apps/test_extract.csv"
+
+    #    input = "test_extract.csv"
+        extractor = ExtractorExample(**extractor_config)
+        df = extractor.extract(input, spark)
+        df.show()
+    else :
+        print("failed to create session")
